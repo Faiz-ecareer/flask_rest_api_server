@@ -4,10 +4,10 @@ A simple REST API server built with Flask framework.
 sudo apt install python3-pip
 ## Step 2- Install Flask 
 ### virtual environment
-sudo apt install python3.14-venv \n
-python3 -m venv venv \n
-source venv/bin/activate \n
-pip install flask
+sudo apt install python3.14-venv  
+python3 -m venv venv  
+source venv/bin/activate  
+pip install flask  
 ### System-wide
 pip install flask --break-system-packages
 
