@@ -9,12 +9,12 @@ app = Flask(__name__)
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
-print(MONGO_URI)
+
 
 client = MongoClient(MONGO_URI)
 
-client.admin.command("ping")
-print("MongoDB connected successfully!")
+
+
 
 @app.route("/")
 def home():
