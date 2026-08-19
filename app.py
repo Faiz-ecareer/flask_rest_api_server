@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import json
 import os
 from dotenv import load_dotenv
@@ -13,7 +13,8 @@ MONGO_URI = os.getenv("MONGO_URI")
 
 client = MongoClient(MONGO_URI)
 
-
+db = client["flask_database"]
+collection = db["submissions"]
 
 
 @app.route("/")
@@ -29,6 +30,18 @@ def api():
 @app.route("/form")
 def form():
     return render_template("form.html")
+
+@app.route("/submit", methods=["POST"])
+def submit():
+    name = request.form["name"]
+    email = request.form["email"]
+
+    collection.insert_one({
+        "name": name,
+        "email": email
+    })
+
+    return "Data received!"
 
 if __name__=="__main__":
     app.run()
