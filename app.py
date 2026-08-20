@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 import json
 import os
 from dotenv import load_dotenv
@@ -31,17 +31,30 @@ def api():
 def form():
     return render_template("form.html")
 
+@app.route("/success")
+def success():
+    return render_template("success.html")
+
+
 @app.route("/submit", methods=["POST"])
 def submit():
-    name = request.form["name"]
-    email = request.form["email"]
+    name = request.form.get("name")
+    email = request.form.get("email")
 
-    collection.insert_one({
-        "name": name,
-        "email": email
-    })
+    if not name or not email:
+        error = "Name and email are required."
+        return render_template("form.html", error=error)
 
-    return "Data received!"
+    try:
+        collection.insert_one({
+            "name": name,
+            "email": email
+        })
+    except Exception:
+        error = "Failed to submit data. Please try again."
+        return render_template("form.html", error=error)
+
+    return redirect(url_for("success"))
 
 if __name__=="__main__":
     app.run()

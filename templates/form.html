@@ -4,6 +4,10 @@
     <title>Submit Data</title>
 </head>
 <body>
+     {% if error %}
+    	<p>{{ error }}</p>
+     {% endif %}
+
     <h1>Submit Data</h1>
 
     <form method="POST" action="/submit">
